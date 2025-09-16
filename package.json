@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node src/server.ts",
+    "dev": "nodemon --exec ts-node src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,16 @@
   "bugs": {
     "url": "https://github.com/Mr-Mhlongo/express-library-api/issues"
   },
-  "homepage": "https://github.com/Mr-Mhlongo/express-library-api#readme"
+  "homepage": "https://github.com/Mr-Mhlongo/express-library-api#readme",
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.4.0",
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
 }
