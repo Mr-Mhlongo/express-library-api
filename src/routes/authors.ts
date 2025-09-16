@@ -1,5 +1,7 @@
 import express from "express"
 import { authors, createAuthor } from "../models/author"
+import { books } from "../models/book"
+import { AppError } from "../middleware/errorHandler"
 
 export const authorsRouter = express.Router()
 
@@ -19,6 +21,15 @@ authorsRouter.get("/:id", (req, res) => {
   const author = authors.find(a => a.id === id)
   if (!author) return res.status(404).json({ error: "Author not found" })
   res.json(author)
+})
+
+authorsRouter.get("/:id/books", (req, res) => {
+  const id = Number(req.params.id)
+  const author = authors.find(a => a.id === id)
+  if (!author) return res.status(404).json({ error: "Author not found" })
+
+  const authorBooks = books.filter(b => b.authorId === id)
+  res.json({ author, books: authorBooks })
 })
 
 authorsRouter.put("/:id", (req, res) => {
