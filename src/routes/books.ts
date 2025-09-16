@@ -27,10 +27,52 @@ booksRouter.post("/", validateBook, (req, res, next) => {
   }
 })
 
-// List all
-booksRouter.get("/", (_req, res, next) => {
+// List all 
+booksRouter.get("/", (req, res, next) => {
   try {
-    res.json(bookModel.books)
+    let results = [...bookModel.books]
+
+    const { authorId, year, search, sort, page = "1", limit = "10" } = req.query
+
+    // Filter by authorId
+    if (authorId) {
+      results = results.filter(b => b.authorId === Number(authorId))
+    }
+
+    // Filter by year
+    if (year) {
+      results = results.filter(b => b.year === Number(year))
+    }
+
+    // Search in title
+    if (search && typeof search === "string") {
+      results = results.filter(b =>
+        b.title.toLowerCase().includes(search.toLowerCase())
+      )
+    }
+
+    // Sorting
+    if (sort && typeof sort === "string") {
+      const field = sort.startsWith("-") ? sort.substring(1) : sort
+      const direction = sort.startsWith("-") ? -1 : 1
+      results.sort((a: any, b: any) =>
+        a[field] > b[field] ? direction : -direction
+      )
+    }
+
+    // Pagination
+    const pageNum = Number(page)
+    const limitNum = Number(limit)
+    const start = (pageNum - 1) * limitNum
+    const end = start + limitNum
+    const paginated = results.slice(start, end)
+
+    res.json({
+      total: results.length,
+      page: pageNum,
+      limit: limitNum,
+      data: paginated,
+    })
   } catch (err) {
     next(err)
   }
