@@ -16,7 +16,7 @@ The API manages authors and books, supports CRUD operations, error handling, log
 
 ## Installation and setup
 ### 1. Clone repo
-git clone https://github.com/your-username/express-library-api.git
+git clone https://github.com/Mr-Mhlongo/express-library-api.git
 cd express-library-api
 
 ### 2. Install dependencies
